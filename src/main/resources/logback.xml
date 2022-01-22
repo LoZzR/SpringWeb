@@ -11,8 +11,6 @@
         </encoder>
     </appender>
 
-    <logger name="jdbctemplate" level="debug"/>
-
     <logger name="org.springframework" level="trace"/>
 
     <root level="info">
