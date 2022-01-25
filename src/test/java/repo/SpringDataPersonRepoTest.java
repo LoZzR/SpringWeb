@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import services.impl.PersonService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class SpringDataPersonRepoTest {
 
     @Autowired
-    private SpringDataPersonRepo personRepo;
+    private PersonService personService;
 
     @BeforeEach
     void setUp(){
-        assertNotNull(personRepo);
+        assertNotNull(personService);
     }
 
     @Test
@@ -30,8 +31,21 @@ public class SpringDataPersonRepoTest {
         person.setFirstName("Zakariae");
         person.setLastName("EL HICHEM");
 
-        assertNotNull(personRepo.save(person));
-        assertEquals(1, personRepo.findAll().size());
+        assertNotNull(personService.addPerson(person));
+        assertEquals(1, personService.findAll().size());
+    }
+
+    @Test
+    void getPersonByIdPositive(){
+        Person person = new Person();
+        person.setFirstName("Zakariae");
+        person.setLastName("EL HICHEM");
+
+        Person newPerson = personService.addPerson(person);
+
+        assertNotNull(newPerson);
+        assertNotNull(newPerson.getId());
+        assertNotNull(personService.findById(newPerson.getId()));
     }
 
 }
