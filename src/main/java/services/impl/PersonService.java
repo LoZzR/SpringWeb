@@ -17,7 +17,7 @@ public class PersonService implements IPersonService {
 
     @Override
     public Person findById(Long id) {
-        return personRepo.findById(id).orElseThrow(()->new PersonNotFoundException(id));
+        return personRepo.findById(id).orElse(new Person());
     }
 
     @Override
