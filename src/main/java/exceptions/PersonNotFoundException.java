@@ -1,10 +1,10 @@
 package exceptions;
 
-public class PersonNotFoundException extends RuntimeException{
+import entities.Person;
 
-    public static final String PERSON_NOT_FOUND_MSG = "Person with id %s not found";
+public class PersonNotFoundException extends NotFoundException{
 
     public PersonNotFoundException(Long id){
-        super(String.format(PERSON_NOT_FOUND_MSG, id));
+        super(Person.class, id);
     }
 }
