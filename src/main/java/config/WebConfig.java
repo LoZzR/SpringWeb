@@ -3,9 +3,12 @@ package config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
@@ -15,11 +18,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class WebConfig implements WebMvcConfigurer {
 
     //<=> <mvc:default-servlet-handler/>
-    @Override
+    /*@Override
     public void configureDefaultServletHandling (
             DefaultServletHandlerConfigurer configurer){
         configurer.enable();
-    }
+    }*/
 
     @Bean
     InternalResourceViewResolver getViewResolver () {
@@ -28,6 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".jsp");
         resolver.setRequestContextAttribute("requestContext");
+        return resolver;
+    }
+
+    @Bean
+    HandlerExceptionResolver missingMappingExceptionResolver(){
+        SimpleMappingExceptionResolver resolver = new
+                MissingExceptionResolver();resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return resolver;
     }
 }
