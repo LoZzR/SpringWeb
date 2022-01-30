@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc // <=><mvc:annotation-driven/>
 // <=> <context:component-scan base-package="controllers"/>
-@ComponentScan(basePackages = {"controllers"})
+@ComponentScan(basePackages = {"controllers", "exceptions"})
 public class WebConfig implements WebMvcConfigurer {
 
     //<=> <mvc:default-servlet-handler/>
