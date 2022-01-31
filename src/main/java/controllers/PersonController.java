@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import services.IPersonService;
 
 @Controller
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public String getAllPersons(Model model){
         model.addAttribute("persons", personService.findAll());
-        return "persons";
+        return "persons/list";
     }
 
     @GetMapping("/{id}")
