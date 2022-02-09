@@ -1,11 +1,9 @@
 package controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +19,7 @@ import java.util.List;
 public class HomeController {
 
     @GetMapping("/headers")
+    @ResponseStatus(HttpStatus.OK)
     public String headers(@RequestHeader(value="Host") String host,
                           @RequestHeader(value="User-Agent") String userAgent,
                           Model model) {
@@ -34,6 +33,7 @@ public class HomeController {
 
     //provide access to request details: headers, request and session attributes.
     @GetMapping("/request")
+    @ResponseStatus(HttpStatus.OK)
     public String webRequest(WebRequest webRequest, Model model){
         List<String> dataList = new ArrayList<>();
         dataList.add("These are the details of this request: ");
@@ -45,6 +45,7 @@ public class HomeController {
     }
 
     @GetMapping("/response")
+    @ResponseStatus(HttpStatus.OK)
     public String webResponse(HttpServletResponse response, Model model){
         List<String> dataList = new ArrayList<>();
         dataList.add("Response was modified. Check the cookies.");
@@ -55,6 +56,7 @@ public class HomeController {
     }
 
     @GetMapping("/verifyRedirection")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String redirectData(final RedirectAttributes redirectAttributes) {
         List<String> dataList = new ArrayList<>();
         dataList.add("Data from HomeController.redirectData");
@@ -64,6 +66,7 @@ public class HomeController {
     }
 
     @GetMapping(value="/data-list")
+    @ResponseStatus(HttpStatus.OK)
     public String listData(@ModelAttribute("dataList") ArrayList<String> content) {
         return "home/sandbox";
     }
