@@ -1,7 +1,6 @@
 <!--XML based configuration-->
-<!--
 <web-app>
-    &lt;!&ndash; The front controller, the entry point for all requests &ndash;&gt;
+    <!-- The front controller, the entry point for all requests -->
     <servlet>
         <servlet-name>main-dispatcher</servlet-name>
         <servlet-class>
@@ -9,21 +8,21 @@
         </servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/mvc-config.xml
-            </param-value>
+            <param-value>/WEB-INF/spring/mvc-config.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    &lt;!&ndash; Map all requests to the DispatcherServlet for handling &ndash;&gt;
+    <!-- Map all requests to the DispatcherServlet for handling -->
     <servlet-mapping>
         <servlet-name>main-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-</web-app>-->
+</web-app>
 
 <!--Annotation based configuration-->
+<!--
 <web-app>
-    <!-- The front controller, the entry point for all requests -->
+    &lt;!&ndash; The front controller, the entry point for all requests &ndash;&gt;
     <servlet>
         <servlet-name>main-dispatcher</servlet-name>
         <servlet-class>
@@ -43,4 +42,4 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-</web-app>
+</web-app>-->

@@ -13,29 +13,29 @@
     <context:component-scan base-package="controllers"/>
 
     <!-- Defines basic MVC defaults (handler adapter, mapping, etc) -->
-    <mvc:annotation-driven>
+    <!--<mvc:annotation-driven>
         <mvc:path-matching path-helper="customPathHelper"/>
-    </mvc:annotation-driven>
-
-    <bean id="customPathHelper" class="org.springframework.web.util.UrlPathHelper">
+    </mvc:annotation-driven>-->
+    <mvc:annotation-driven />
+    <!--<bean id="customPathHelper" class="org.springframework.web.util.UrlPathHelper">
         <property name="removeSemicolonContent" value="false"/>
-    </bean>
+    </bean>-->
 
     <!--
       Configures a handler for serving static resources by forwarding to the
       Servlet container's default Servlet.
     -->
-    <mvc:default-servlet-handler/>
+    <!--<mvc:default-servlet-handler/>-->
 
     <!-- Serves up cached and compressed static content at /resources/* from the webapp root and classpath  -->
-    <mvc:resources mapping="/images/**" location="/images/"/>
-    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <!--<mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>-->
 
     <!--
         Interceptors for locale/theme changing and the setting of caching response headers.
          Applied automatically against all handler mappings.
      -->
-    <mvc:interceptors>
+    <!--<mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
         <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
         <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
@@ -44,35 +44,35 @@
                 <null/>
             </property>
         </bean>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
     <mvc:view-controller path="/" view-name="index"/>
 
 
     <!-- Resolves messages to support internationalization -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+   <!-- <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
             <list>
                 <value>/WEB-INF/messages/global</value>
             </list>
         </property>
         <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
+    </bean>-->
 
     <!-- Resolves view names to protected .jsp resources within the /WEB-INF directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/"/>
         <property name="suffix" value=".jsp"/>
-        <property name="requestContextAttribute" value="requestContext"/>
+        <!--<property name="requestContextAttribute" value="requestContext"/>-->
     </bean>
 
     <!-- Enables locale resolution with the help of a browser cookie -->
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+<!--    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="en"/>
         <property name="cookieMaxAge" value="3600"/>
     </bean>
 
-    <!-- Enables theme resolution with the help of a browser cookie -->
+    &lt;!&ndash; Enables theme resolution with the help of a browser cookie &ndash;&gt;
     <bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
         <property name="defaultThemeName" value="green"/>
         <property name="cookieMaxAge" value="3600"/>
@@ -80,6 +80,12 @@
 
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="error"/>
-    </bean>
+    </bean>-->
+
+    <!-- needed to pick up the annotated java-config -->
+    <context:component-scan base-package="config"/>
+
+    <!-- Importing java-config class, which are annotated with @Configuration -->
+    <bean name="springDataConfig" class="config.SpringDataConfig" />
 
 </beans>
