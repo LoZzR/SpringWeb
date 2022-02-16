@@ -18,6 +18,12 @@ import java.util.List;
 @RequestMapping("/home")
 public class HomeController {
 
+    @RequestMapping(value = "/hello")
+    public String hello(@RequestParam("name") String name, Model model){
+        model.addAttribute("name", name);
+        return "home/hello";
+    }
+
     @GetMapping("/headers")
     @ResponseStatus(HttpStatus.OK)
     public String headers(@RequestHeader(value="Host") String host,

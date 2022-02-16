@@ -1,6 +1,6 @@
 <!--XML based configuration-->
-<web-app>
-    <!-- The front controller, the entry point for all requests -->
+<!--<web-app>
+    &lt;!&ndash; The front controller, the entry point for all requests &ndash;&gt;
     <servlet>
         <servlet-name>main-dispatcher</servlet-name>
         <servlet-class>
@@ -12,17 +12,16 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!-- Map all requests to the DispatcherServlet for handling -->
+    &lt;!&ndash; Map all requests to the DispatcherServlet for handling &ndash;&gt;
     <servlet-mapping>
         <servlet-name>main-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-</web-app>
+</web-app>-->
 
 <!--Annotation based configuration-->
-<!--
 <web-app>
-    &lt;!&ndash; The front controller, the entry point for all requests &ndash;&gt;
+    <!-- The front controller, the entry point for all requests -->
     <servlet>
         <servlet-name>main-dispatcher</servlet-name>
         <servlet-class>
@@ -42,4 +41,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-</web-app>-->
+
+    <!--Map all requests to the DispatcherServlet for handling;-->
+    <servlet-mapping>
+        <servlet-name>main-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

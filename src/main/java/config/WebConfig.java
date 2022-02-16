@@ -7,6 +7,7 @@ import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -39,5 +40,11 @@ public class WebConfig implements WebMvcConfigurer {
         SimpleMappingExceptionResolver resolver = new
                 MissingExceptionResolver();resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return resolver;
+    }
+
+    //<mvc:view-controller path="/" view-name="index"/>
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("index");
     }
 }
