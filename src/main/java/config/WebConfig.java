@@ -3,6 +3,7 @@ package config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc // <=><mvc:annotation-driven/>
 // <=> <context:component-scan base-package="controllers"/>
 @ComponentScan(basePackages = {"controllers", "exceptions"})
+@Import(SpringDataConfig.class)
 public class WebConfig implements WebMvcConfigurer {
 
     //<=> <mvc:default-servlet-handler/>
@@ -31,7 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
                 InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".jsp");
-        resolver.setRequestContextAttribute("requestContext");
+        //resolver.setRequestContextAttribute("requestContext");
         return resolver;
     }
 
