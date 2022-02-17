@@ -24,10 +24,10 @@ public class PersonController {
         return "persons/list";
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String getPersonById(Model model, @PathVariable Long id){
         model.addAttribute("person", personService.findById(id));
         return "person";
-    }
+    }*/
 }

@@ -1,9 +1,12 @@
 package controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,11 +20,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-
     @RequestMapping(value = "/hello")
     public String hello(@RequestParam("name") String name, Model model){
         model.addAttribute("name", name);
-        return "home/hello";
+        return "hello";
     }
 
     @GetMapping("/headers")
