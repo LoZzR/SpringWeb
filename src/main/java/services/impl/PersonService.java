@@ -8,6 +8,7 @@ import repo.SpringDataPersonRepo;
 import services.IPersonService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService implements IPersonService {
@@ -16,8 +17,8 @@ public class PersonService implements IPersonService {
     private SpringDataPersonRepo personRepo;
 
     @Override
-    public Person findById(Long id) {
-        return personRepo.findById(id).orElse(new Person());
+    public Optional<Person> findById(Long id) {
+        return personRepo.findById(id);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class SpringDataPersonRepoTest {
 
         assertNotNull(newPerson);
         assertNotNull(newPerson.getId());
-        assertNotNull(personService.findById(newPerson.getId()));
+        assertNotNull(personService.findById(newPerson.getId()).get());
     }
 
 }

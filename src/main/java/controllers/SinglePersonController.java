@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Person;
+import exceptions.PersonNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,14 +23,13 @@ public class SinglePersonController {
 
     @ModelAttribute
     protected Person modelPerson(@PathVariable Long id){
-        Person person = new Person();
-        Optional<Person> personOpt = Optional.of(personService.findById(id));
-        return personOpt.orElse(person);
+        Optional<Person> personOpt = personService.findById(id);
+        return personOpt.orElseThrow(()-> new PersonNotFoundException(id));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String show() {
+    public String show(@PathVariable Long id) {
         return "persons/show";
     }
 

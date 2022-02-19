@@ -20,12 +20,12 @@ public class MissingExceptionResolver extends SimpleMappingExceptionResolver {
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return model;
         }
-        else if(ex instanceof PersonNotFoundException){
+        /*else if(ex instanceof PersonNotFoundException){
             ModelAndView model = new ModelAndView("error");
             model.addObject("problem","Person not found :");
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return model;
-        }
+        }*/
         return null;
     }
 }

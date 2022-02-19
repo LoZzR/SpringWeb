@@ -13,8 +13,7 @@ public class MissingRecordsHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ModelAndView notFound(HttpServletRequest req, NotFoundException
-            nfe) {
+    public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("problem", "Malformed URL: " + req.getRequestURI()
                 + "<br/>" + nfe.getMessage());
