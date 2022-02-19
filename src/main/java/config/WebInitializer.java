@@ -34,12 +34,21 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     }*/
 
 
+    /*throw an org.springframework.web.servlet.NoHandlerFoundException when a handler method
+    cannot be found, Note that adding this configuration does nothing if DefaultServletHttpRequestHandler is used,*/
     @Override
     protected DispatcherServlet createDispatcherServlet (WebApplicationContext servletAppContext) {
         final DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
+
+    //same effect as createDispatcherServlet
+    /*@Override
+    public void customizeRegistration(ServletRegistration.Dynamic
+                                              registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+    }*/
 
     @Override
     protected String[] getServletMappings() {
