@@ -1,5 +1,6 @@
 package config;
 
+import exceptions.PersonNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -16,6 +17,12 @@ public class MissingExceptionResolver extends SimpleMappingExceptionResolver {
         if (ex instanceof NoHandlerFoundException) {
             ModelAndView model = new ModelAndView("error");
             model.addObject("problem","URL not supported : " + request.getRequestURI());
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return model;
+        }
+        else if(ex instanceof PersonNotFoundException){
+            ModelAndView model = new ModelAndView("error");
+            model.addObject("problem","Person not found :");
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return model;
         }

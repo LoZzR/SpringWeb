@@ -39,8 +39,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     HandlerExceptionResolver missingMappingExceptionResolver(){
-        SimpleMappingExceptionResolver resolver = new
-                MissingExceptionResolver();resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        SimpleMappingExceptionResolver resolver = new MissingExceptionResolver();
+        resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return resolver;
     }
 
