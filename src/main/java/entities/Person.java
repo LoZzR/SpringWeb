@@ -1,5 +1,6 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import util.DateProcessor;
 
@@ -40,6 +41,7 @@ public class Person extends AbstractEntity {
     private String password;
 
     //@NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
     @Column(nullable = true)
     private LocalDateTime hiringDate;
