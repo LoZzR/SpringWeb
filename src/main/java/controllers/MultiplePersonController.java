@@ -3,6 +3,7 @@ package controllers;
 import entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,8 @@ public class MultiplePersonController {
     @Autowired
     private IPersonService personService;
 
-    @GetMapping(path = "/list")
+    @GetMapping(path = "/list",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseBody
     public List<Person> list() {
 

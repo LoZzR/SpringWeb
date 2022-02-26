@@ -1,10 +1,12 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 import util.DateProcessor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,7 +37,8 @@ public class Person extends AbstractEntity {
     @Column(nullable = true)
     private String lastName;
 
-    //@NotNull
+    @JsonIgnore
+    @NotNull
     @Size(min = 4, max = 50)
     @Column(nullable = true)
     private String password;
@@ -46,6 +49,7 @@ public class Person extends AbstractEntity {
     @Column(nullable = true)
     private LocalDateTime hiringDate;
 
+    @JsonIgnore
     @Transient
     private String newPassword;
 
