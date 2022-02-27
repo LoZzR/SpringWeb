@@ -24,7 +24,7 @@ public class Person extends AbstractEntity {
     public static final String FIND_BY_LAST_NAME = "findAllByLastName";
 
     @NotNull(groups = BasicValidation.class)
-    @Size(min = 3, max = 30)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = true/*, unique = true*/)
     private String username;
 
