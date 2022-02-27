@@ -3,13 +3,12 @@ package controllers;
 import entities.Person;
 import exceptions.IllegalOperation;
 import exceptions.NotFoundException;
+import exceptions.PersonsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import services.IPersonService;
@@ -42,7 +41,7 @@ public class MultiplePersonController {
         personService.savePerson(p);
         List<Person> persons = personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
-        throw new RuntimeException();
+        return persons;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,7 +49,8 @@ public class MultiplePersonController {
     public Person create(@Validated(Person.BasicValidation.class)
                          @RequestBody Person person, BindingResult result) {
         if (result.hasErrors()) {
-            throw new IllegalOperation("Cannot save entry!");
+            String errString = createErrorString(result);
+            throw new PersonsException(HttpStatus.BAD_REQUEST,"Cannot save entry because: "+ errString);
         }
         person.setPassword("test123");
         return personService.savePerson(person);
@@ -63,7 +63,7 @@ public class MultiplePersonController {
         if(personOpt.isPresent()) {
             return personOpt.get();
         } else {
-            throw new NotFoundException(Person.class, id);
+            throw new PersonsException(HttpStatus.NOT_FOUND, "Unable to find entry with id " + id );
         }
     }
 
@@ -80,7 +80,7 @@ public class MultiplePersonController {
             person.setLastName(updatedPerson.getLastName());
             return personService.savePerson(person);
         } else {
-            throw new NotFoundException(Person.class, id);
+            throw new PersonsException(HttpStatus.NOT_FOUND, "Unable to find entry with id " + id );
         }
     }
 
@@ -89,5 +89,16 @@ public class MultiplePersonController {
     public void delete(@PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         personOpt.ifPresent(value -> personService.deletePerson(value));
+    }
+
+    private String createErrorString(BindingResult result) {
+        StringBuilder sb =  new StringBuilder();
+        result.getAllErrors().forEach(error -> {
+            if(error instanceof FieldError) {
+                FieldError err= (FieldError) error;
+                sb.append("Field '").append(err.getField()).append("' value error: ").append(err.getDefaultMessage());
+            }
+        });
+        return sb.toString();
     }
 }
