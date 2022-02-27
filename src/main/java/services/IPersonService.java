@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface IPersonService {
     Optional<Person> findById(Long id);
-    Person addPerson(Person person);
+    Person savePerson(Person person);
+    void deletePerson(Person person);
     List<Person> findAll();
     int countAllPerson();
 }

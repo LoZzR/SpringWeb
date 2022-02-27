@@ -22,17 +22,18 @@ public class Person extends AbstractEntity {
     public static final String FIND_BY_COMPLETE_NAME =
             "findByCompleteName";
     public static final String FIND_BY_LAST_NAME = "findAllByLastName";
-    //@NotNull
-    //@Size(min = 3, max = 30)
+
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30)
     @Column(nullable = true/*, unique = true*/)
     private String username;
 
-    //@NotNull
+    @NotNull(groups = BasicValidation.class)
     @Size(min = 3, max = 30)
     @Column(nullable = true)
     private String firstName;
 
-    //@NotNull
+    @NotNull(groups = BasicValidation.class)
     @Size(min = 3, max = 30)
     @Column(nullable = true)
     private String lastName;
@@ -127,4 +128,6 @@ public class Person extends AbstractEntity {
                 username, firstName, lastName, hiringDate == null? "" : hiringDate.toString());
 
     }
+
+    public interface BasicValidation{}
 }

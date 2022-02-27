@@ -31,7 +31,7 @@ public class SpringDataPersonRepoTest {
         person.setFirstName("Zakariae");
         person.setLastName("EL HICHEM");
 
-        assertNotNull(personService.addPerson(person));
+        assertNotNull(personService.savePerson(person));
         assertEquals(1, personService.findAll().size());
     }
 
@@ -41,7 +41,7 @@ public class SpringDataPersonRepoTest {
         person.setFirstName("Zakariae");
         person.setLastName("EL HICHEM");
 
-        Person newPerson = personService.addPerson(person);
+        Person newPerson = personService.savePerson(person);
 
         assertNotNull(newPerson);
         assertNotNull(newPerson.getId());

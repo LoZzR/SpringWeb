@@ -22,8 +22,13 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public Person addPerson(Person person) {
+    public Person savePerson(Person person) {
         return personRepo.save(person);
+    }
+
+    @Override
+    public void deletePerson(Person person) {
+        personRepo.delete(person);
     }
 
     @Override
