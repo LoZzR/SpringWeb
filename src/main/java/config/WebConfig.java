@@ -3,12 +3,14 @@ package config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -55,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     //Must be declared before Spring 5
-    /*@Bean
+    @Bean
     public MappingJackson2HttpMessageConverter
     mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter
@@ -63,10 +65,30 @@ public class WebConfig implements WebMvcConfigurer {
                 new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
         return mappingJackson2HttpMessageConverter;
-    }*/
+    }
+
+    @Bean
+    public MappingJackson2XmlHttpMessageConverter
+    mappingJackson2XmlHttpMessageConverter() {
+        MappingJackson2XmlHttpMessageConverter
+                mappingJackson2XmlHttpMessageConverter =
+                new MappingJackson2XmlHttpMessageConverter();
+        mappingJackson2XmlHttpMessageConverter.setObjectMapper(xmlMapper());
+        return mappingJackson2XmlHttpMessageConverter;
+    }
+
 
     //Must be declared before Spring 5 or to support modules that provide
     //special converters (@JsonFormat for example)
+    @Bean
+    public ObjectMapper xmlMapper() {
+        ObjectMapper objMapper = new XmlMapper();
+        objMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        //that is a convenience method that scans and registers all modules in the classpath
+        objMapper.findAndRegisterModules();
+        return objMapper;
+    }
+
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objMapper = new ObjectMapper();

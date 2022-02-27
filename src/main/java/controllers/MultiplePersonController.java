@@ -25,7 +25,7 @@ public class MultiplePersonController {
     private IPersonService personService;
 
     @GetMapping(path = "/list",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     //@ResponseBody
     public List<Person> list() {
 
