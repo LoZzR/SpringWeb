@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc // <=><mvc:annotation-driven/>
 // <=> <context:component-scan base-package="controllers"/>
-@ComponentScan(basePackages = {"controllers", "exceptions"})
+@ComponentScan(basePackages = {"controllers"})
 //@Import(SpringDataConfig.class)
 public class WebConfig implements WebMvcConfigurer {
 

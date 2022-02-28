@@ -21,7 +21,6 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource({"classpath:db/db.properties"})
-@ComponentScan(basePackages = {"repo", "services"})
 //@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"repo"})
 public class SpringDataConfig {
