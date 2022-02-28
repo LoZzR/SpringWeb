@@ -13,12 +13,33 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan(basePackages = {"services", "exceptions"})
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+
+    AuthenticationEntryPoint restAuthenticationEntryPoint =
+            (request, response, authException) ->
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                            "Unauthorized");
+
+    AccessDeniedHandler accessDeniedHandler = (request, response,
+                                               accessDeniedException) -> {
+        response.getOutputStream().print("You shall not pass!");
+        response.setStatus(403);
+    };
+
+    SimpleUrlAuthenticationFailureHandler authenticationFailureHandler = new SimpleUrlAuthenticationFailureHandler();
+
+    @Autowired
+    RestAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
@@ -36,12 +57,20 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/resources/**","/images/**","/styles/**").permitAll()
-                .antMatchers("/persons/newPerson").hasRole("ADMIN")
-                .antMatchers("/detectives/*").hasRole("ADMIN")
-                .antMatchers("/**").hasAnyRole("ADMIN","USER")
-                .anyRequest()
-                .authenticated();
+        http.exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .and()
+                .authorizeRequests()
+                .mvcMatchers("/persons/**").hasRole("ADMIN")
+                .mvcMatchers("/**").hasAnyRole("ADMIN", "USER")
+                .and()
+                .formLogin()
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
+                .and()
+                .httpBasic()
+                .and()
+                .logout();
     }
 }
