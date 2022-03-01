@@ -5,15 +5,19 @@ import exceptions.IllegalOperation;
 import exceptions.NotFoundException;
 import exceptions.PersonsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriTemplate;
 import services.IPersonService;
 import util.DateProcessor;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,14 +50,24 @@ public class MultiplePersonController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@Validated(Person.BasicValidation.class)
-                         @RequestBody Person person, BindingResult result) {
+    public void create(@Validated(Person.BasicValidation.class)
+                         @RequestBody Person person, BindingResult result,
+                       @Value("#{request.requestURL}")
+                               StringBuffer originalUrl, HttpServletResponse response) {
         if (result.hasErrors()) {
             String errString = createErrorString(result);
             throw new PersonsException(HttpStatus.BAD_REQUEST,"Cannot save entry because: "+ errString);
         }
-        person.setPassword("test123");
-        return personService.savePerson(person);
+        if(StringUtils.isEmpty(person.getPassword())){
+            person.setPassword("test123");
+        }
+        try {
+            Person newPerson = personService.savePerson(person);
+            response.setHeader("Location", getLocationForUser(
+                    originalUrl, newPerson.getId()));
+        } catch (Exception e) {
+            throw new PersonsException(HttpStatus.UNPROCESSABLE_ENTITY, e);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -100,5 +114,11 @@ public class MultiplePersonController {
             }
         });
         return sb.toString();
+    }
+
+    private static String getLocationForUser(StringBuffer url,
+                                             Object childIdentifier) {
+        UriTemplate template = new UriTemplate(url.toString() + "/{id}");
+        return template.expand(childIdentifier).toASCIIString();
     }
 }
