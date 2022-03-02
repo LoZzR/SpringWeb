@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Person;
 import exceptions.IllegalOperation;
+import exceptions.InvalidCriteriaException;
 import exceptions.NotFoundException;
 import exceptions.PersonsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
 import services.IPersonService;
+import util.CriteriaDto;
 import util.DateProcessor;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +48,17 @@ public class MultiplePersonController {
         List<Person> persons = personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
         return persons;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
+        try {
+            return personService.getByCriteriaDto(criteria);
+        } catch (InvalidCriteriaException ice) {
+            throw  new PersonsException(HttpStatus.BAD_REQUEST, ice);
+        }
     }
 
     @ResponseStatus(HttpStatus.CREATED)
