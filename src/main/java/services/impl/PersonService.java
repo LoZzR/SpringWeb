@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import repo.SpringDataPersonRepo;
 import services.IPersonService;
 import util.CriteriaDto;
+import util.DateProcessor;
+import util.FieldGroup;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -66,7 +68,7 @@ public class PersonService implements IPersonService {
                 }
                 break;
             case HIREDIN:
-                LocalDateTime date;
+                LocalDateTime date;SS
                 try {
                     date = DateProcessor.toDate(criteria.getFieldValue());
                 } catch (DateTimeParseException e) {
